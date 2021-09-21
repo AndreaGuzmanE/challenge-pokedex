@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap");
+
+.header {
+    font-family: "ZCOOL KuaiLe";
+    font-weight: bold;
+    font-size: 35px;
+    color: #FAD61D;
+    text-shadow: -2px -2px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000;
+}
