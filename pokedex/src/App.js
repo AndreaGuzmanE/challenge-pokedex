@@ -51,9 +51,9 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
+      <Router basename="dashboard">
         <Switch>
-          <Route path="/dashboard">
+          <Route path="/">
             < Header />
             {loading && <Loading />}
             {error && <Message />}
