@@ -6,6 +6,7 @@ import Board from "./components/Board";
 import Loading from "./components/Loading";
 import Message from "./components/MessageError";
 import Header from "./components/Header";
+import NotFound from "./components/NotFound";
 
 function App() {
   const [allPokemons, setAllPokemons] = useState([]);
@@ -16,37 +17,31 @@ function App() {
     const response = await api.get(path);
     return response.data;
   };
-  
+
   useEffect(() => {
     setLoading(true);
-    setTimeout(()=> {
-      getPokemon()
+    setError(null);
+    getPokemon()
       .then((data) => {
-        const { results } = data;
+         const { results } = data;
+        results.forEach((element) => {
+          const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
+          const id = element.url.replace(apiUrl, "").replace("/", "");
+          element.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+          element.id = id;
+          const capitalLetter = element.name.charAt(0).toUpperCase();
+          const string = element.name.slice(1);
+          element.name = capitalLetter + string;
+        }); 
         setAllPokemons(results);
+        //setAllPokemons([]);
+        setLoading(false);
       })
       .catch((error) => {
         setError(error);
+        setLoading(false);
       });
-      setLoading(false)
-    }, 2000)
-    
-      
   }, []);
-
-
-  const getURLs = allPokemons.map((element) => element.url);
-  const getID = getURLs.map((urlPokemon) => {
-    const url = `${urlPokemon}`;
-    const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
-    const id = url.replace(apiUrl, "").replace("/", "");
-    return id;
-  });
-
-  const getPokemonImages = getID.map((id) => {
-    const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-    return image;
-  });
   
 
   return (
@@ -54,15 +49,11 @@ function App() {
       <Router basename="dashboard">
         <Switch>
           <Route path="/">
-            < Header />
+            <Header />
             {loading && <Loading />}
+            {allPokemons.length === 0 && !error && !loading && <NotFound /> }
             {error && <Message />}
-            {allPokemons &&  (
-              <Board
-                allPokemons={allPokemons}
-                getPokemonImages={getPokemonImages}
-              />
-            )}
+            {!error && <Board allPokemons={allPokemons} /> }
           </Route>
         </Switch>
       </Router>

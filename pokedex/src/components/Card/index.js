@@ -5,22 +5,21 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 const PokemonCard = (props) => {
-  const { name, image, index } = props;
+  const { name, image } = props;
 
   return (
     <Card sx={{ Width: 345 }}>
-      <img key={index} src={image} alt="pokemon" />
+      <img src={image} alt="pokemon" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {name[`${index}`]}
+          {name}
         </Typography>
       </CardContent>
     </Card>
   );
 };
 Card.propTypes = {
-  name: PropTypes.object,
-  index: PropTypes.number,
+  name: PropTypes.string,
   image: PropTypes.string,
 };
 
