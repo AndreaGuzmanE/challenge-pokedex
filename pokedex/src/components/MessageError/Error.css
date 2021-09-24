@@ -1,9 +1,10 @@
-.error{
-    display: flex;
-    margin-left: 35%;
-   justify-content: center;
-   color: white;
-   background-color: red;
-   font-size: 25px;
-   width: 30%;
+.error {
+  display: flex;
+  margin-left: 35%;
+  justify-content: center;
+  color: white;
+  background-color: red;
+  font-size: 25px;
+  width: 30%;
+  border-radius: 3px;
 }
