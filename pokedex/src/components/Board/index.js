@@ -10,13 +10,11 @@ const Board = (props) => {
     <div className="container-cards">
       {allPokemons.map((pokemon) => {
         return (
-          <div>
-            <PokemonCard
-              key={pokemon.id}
-              image={pokemon.image}
-              name={pokemon.name}
-            />
-          </div>
+          <PokemonCard
+            key={pokemon.id}
+            image={pokemon.image}
+            name={pokemon.name}
+          />
         );
       })}
     </div>

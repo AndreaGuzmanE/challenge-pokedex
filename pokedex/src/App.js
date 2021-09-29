@@ -23,7 +23,7 @@ function App() {
     setError(null);
     getPokemon()
       .then((data) => {
-         const { results } = data;
+        const { results } = data;
         results.forEach((element) => {
           const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
           const id = element.url.replace(apiUrl, "").replace("/", "");
@@ -32,7 +32,7 @@ function App() {
           const capitalLetter = element.name.charAt(0).toUpperCase();
           const string = element.name.slice(1);
           element.name = capitalLetter + string;
-        }); 
+        });
         setAllPokemons(results);
         //setAllPokemons([]);
         setLoading(false);
@@ -42,7 +42,6 @@ function App() {
         setLoading(false);
       });
   }, []);
-  
 
   return (
     <div className="App">
@@ -51,9 +50,9 @@ function App() {
           <Route path="/">
             <Header />
             {loading && <Loading />}
-            {allPokemons.length === 0 && !error && !loading && <NotFound /> }
+            {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
-            {!error && <Board allPokemons={allPokemons} /> }
+            {!error && <Board allPokemons={allPokemons} />}
           </Route>
         </Switch>
       </Router>
