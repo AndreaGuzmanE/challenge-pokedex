@@ -7,6 +7,7 @@ import Loading from "./components/Loading";
 import Message from "./components/MessageError";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
+import Detail from "./components/Detail";
 
 function App() {
   const [allPokemons, setAllPokemons] = useState([]);
@@ -45,15 +46,19 @@ function App() {
 
   return (
     <div className="App">
-      <Router basename="dashboard">
+      <Router >
         <Switch>
-          <Route path="/">
+          <Route exact path="/">
+
+          </Route>
+          <Route exact path="/dashboard" >
             <Header />
             {loading && <Loading />}
             {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
             {!error && <Board allPokemons={allPokemons} />}
           </Route>
+          <Route exact path="/dashboard/:id"><Detail/></Route>
         </Switch>
       </Router>
     </div>

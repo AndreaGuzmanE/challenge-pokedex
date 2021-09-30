@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
 
 const PokemonCard = (props) => {
   const { name, image } = props;
@@ -15,6 +17,9 @@ const PokemonCard = (props) => {
           {name}
         </Typography>
       </CardContent>
+      <CardActions>
+        <Button size="small">Detalle</Button>
+      </CardActions>
     </Card>
   );
 };
