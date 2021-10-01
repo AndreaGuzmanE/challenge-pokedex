@@ -5,9 +5,10 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 const PokemonCard = (props) => {
-  const { name, image } = props;
+  const { name, image, idPokemon } = props;
 
   return (
     <Card sx={{ Width: 345 }}>
@@ -18,7 +19,9 @@ const PokemonCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Detalle</Button>
+        <Link to={`/dashboard/${idPokemon}/`}>
+          <Button size="small">Detalle</Button>
+        </Link>
       </CardActions>
     </Card>
   );
