@@ -46,19 +46,19 @@ function App() {
 
   return (
     <div className="App">
-      <Router >
+      <Router>
+        <Header />
         <Switch>
-          <Route exact path="/">
-
-          </Route>
-          <Route exact path="/dashboard" >
-            <Header />
+          <Route exact path="/"></Route>
+          <Route exact path="/dashboard">
             {loading && <Loading />}
             {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
             {!error && <Board allPokemons={allPokemons} />}
           </Route>
-          <Route exact path="/dashboard/:id"><Detail/></Route>
+          <Route path="/dashboard/:idPokemon/">
+            <Detail allPokemons={allPokemons} />
+          </Route>
         </Switch>
       </Router>
     </div>

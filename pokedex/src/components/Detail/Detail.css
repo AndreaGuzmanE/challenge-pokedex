@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+
+.pokemon-container {
+  background-color: white;
+  width: 60%;
+  border-radius: 3px;
+  margin-left: 20%;
+  padding: 5px;
+}
+
+.name {
+  font-size: 45px;
+  padding-top: 10px;
+  /* font-family: 'Permanent Marker', cursive; */
+  font-family: "Luckiest Guy", cursive;
+  color: #323d48;
+}
+
+[class*="poke-"] {
+  border-radius: 4px;
+  margin: 5%;
+}
+
+.poke-electric {
+  background-color: #ffea7066;
+}
+
+.poke-normal {
+  background-color: #b0939866;
+}
+.poke-fire {
+  background-color: #ff675c66;
+}
+.poke-water {
+  background-color: #0596c766;
+}
+.poke-ice {
+  background-color: #afeafd66;
+}
+.poke-rock {
+  background-color: #99979966;
+}
+.poke-flying {
+  background-color: #7ae7c766;
+}
+.poke-grass {
+  background-color: #4a968166;
+}
+.poke-psychic {
+  background-color: #ffc6d966;
+}
+.poke-ghost {
+  background-color: #561d2566;
+}
+.poke-bug {
+  background-color: #a2faa366;
+}
+.poke-poison {
+  background-color: #79566366;
+}
+.poke-ground {
+  background-color: #d2b07466;
+}
+.poke-dragon {
+  background-color: #da627d66;
+}
+.poke-steel {
+  background-color: #1d8a9966;
+}
+.poke-fighting {
+  background-color: #2f2f2f66;
+}
+.poke-fairy {
+  background-color: #cca9dd66;
+}
+
+.img-pokemon {
+  width: 200px;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  font-size: 18px;
+  font-family: "Luckiest Guy", cursive;
+  background-color: #dcdcdc66;
+  margin: 5%;
+  color: #323d48;
+}
+
+.particular-info {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  text-align: start;
+  padding-left: 15px;
+  border-radius: 3px;
+  padding: 5px;
+}
+.general-info {
+  width: 40%;
+  text-align: start;
+  padding-left: 20px;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.g-info {
+  text-align: center;
+}
