@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./Detail.css";
 import { useParams } from "react-router";
 import axios from "axios";
 import Loading from "../Loading";
+import "./Detail.css";
 
 const Detail = () => {
+
   let { idPokemon } = useParams();
 
   const [pokemon, setPokemon] = useState({});
@@ -17,7 +18,7 @@ const Detail = () => {
         setPokemon(data);
       })
       .catch((error) => {
-        //setPokemon(false);
+        setPokemon(false);
         console.log(error);
       });
   }, [idPokemon]);
@@ -38,8 +39,9 @@ const Detail = () => {
       {sprites === undefined ? (
         <Loading />
       ) : (
+        <div>
         <div className="pokemon-container">
-          <div className="name">{name}</div>
+          <h2 className="name">{name}</h2>
           <div className={`poke-${types[0].type.name}`}>
             <img
               className="img-pokemon"
@@ -60,22 +62,26 @@ const Detail = () => {
               <p>Especie: {species.name}</p>
             </div>
             <div className="general-info">
-              <p className="g-info">Habilidades:</p>
-              {abilities.map((abilityInfo) => {
-                const { ability } = abilityInfo;
-                const { name } = ability;
-                return <p key={name}> {`${name}`}</p>;
-              })}
-              <p className="g-info">Tipo:</p>
-              {types.map((typeInfo) => {
-                const { type } = typeInfo;
-                const { name } = type;
-                return <p key={name}> {`${name}`}</p>;
-              })}
+              <div className="abilities">
+                <p>Habilidades:</p>
+                {abilities.map((abilityInfo) => {
+                  const { ability } = abilityInfo;
+                  return <p key={ability.name}> {`${ability.name}`}</p>;
+                })}
+              </div>
+              <div className="types">
+                <p>Tipo:</p>
+                {types.map((typeInfo) => {
+                  const { type } = typeInfo;
+                  return <p key={type.name}> {`${type.name}`}</p>;
+                })}
+              </div>
             </div>
           </div>
         </div>
+        </div>
       )}
+      
     </>
   );
 };

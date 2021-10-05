@@ -5,10 +5,14 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const PokemonCard = (props) => {
   const { name, image, idPokemon } = props;
+  let history = useHistory();
+  const handleClick = () => {
+    history.push(`/detail/${idPokemon}`);
+  };
 
   return (
     <Card sx={{ Width: 345 }}>
@@ -19,9 +23,9 @@ const PokemonCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/dashboard/${idPokemon}/`}>
-          <Button size="small">Detalle</Button>
-        </Link>
+        <Button onClick={handleClick} size="small">
+          Detalle
+        </Button>
       </CardActions>
     </Card>
   );
@@ -29,6 +33,7 @@ const PokemonCard = (props) => {
 Card.propTypes = {
   name: PropTypes.string,
   image: PropTypes.string,
+  idPokemon: PropTypes.number,
 };
 
 export default PokemonCard;

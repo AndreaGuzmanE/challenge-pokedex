@@ -56,8 +56,8 @@ function App() {
             {error && <Message />}
             {!error && <Board allPokemons={allPokemons} />}
           </Route>
-          <Route path="/dashboard/:idPokemon/">
-            <Detail allPokemons={allPokemons} />
+          <Route path="/detail/:idPokemon">
+            <Detail loading={loading} error={error} />
           </Route>
         </Switch>
       </Router>
