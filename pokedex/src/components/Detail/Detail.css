@@ -1,25 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
-
-.pokemon-container {
-  background-color: white;
-  width: 60%;
-  border-radius: 3px;
-  margin-left: 20%;
-  padding: 5px;
-}
-
-.name {
-  font-size: 45px;
-  padding-top: 10px;
-  font-family: "Luckiest Guy", cursive;
-  color: #323d48;
-}
-
-[class*="poke-"] {
-  border-radius: 4px;
-  margin: 0 9% 0 9%;
-}
-
 .poke-electric {
   background-color: #ffea7066;
 }
@@ -72,46 +50,14 @@
 .poke-fairy {
   background-color: #cca9dd66;
 }
-
-.img-pokemon {
-  width: 200px;
+.poke-dark {
+  background-color: #37323266;
 }
 
-.info-container {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 20px;
-  font-size: 18px;
-  font-family: "Luckiest Guy", cursive;
-  margin: 3% 9% 3% 9%;
-  color: #323d48;
+.item {
+  display: inline-block;
 }
 
-.particular-info {
-  display: flex;
-  flex-direction: column;
-  width: 41%;
-  text-align: center;
-  border-radius: 3px;
-  box-shadow: 2px 2px 5px #999;
-  border-radius: 3px;
-  background-color: #dcdcdc66;
-}
-.general-info {
-  width: 51%;
-  text-align: center;
-  padding-left: 20px;
-  border-radius: 3px; 
-}
-
-.general-info > div {
-  text-align: center;
-  box-shadow: 2px 2px 5px #999;
-  border-radius: 3px;
-  padding: 2px 0 2px 0;
-  background-color: #dcdcdc66;
-}
-
-.types {
-  margin-top: 10px;
+.item + .item::before {
+  content: "/";
 }
