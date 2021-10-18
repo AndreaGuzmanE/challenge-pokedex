@@ -22,10 +22,13 @@ const PokemonCard = (props) => {
 
   const handleClickAdd = () => {
     setToggle(!toggle);
+
     pokemonAdd(idPokemon, name, image ).then((newPokemon) => {
+
       setCartPokemon([...cartPokemon, newPokemon]);
     });
   };
+
 
  
  
@@ -47,7 +50,7 @@ const PokemonCard = (props) => {
   const handleRemove = () => {
     setToggle(!toggle);
     
-    
+ 
   };
 
   return (
@@ -79,7 +82,9 @@ const PokemonCard = (props) => {
           </Button>
         ) : (
           <Button
+
         onClick={/*handleRemove*/ deletePokemon}
+
             variant="contained"
             color="error"
             size="small"
