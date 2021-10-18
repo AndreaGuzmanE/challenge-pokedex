@@ -13,6 +13,8 @@ function App() {
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [cartPokemon, setCartPokemon] = useState([]);
+  
 
   const getPokemon = async (path) => {
     const response = await api.get(path);
@@ -36,6 +38,7 @@ function App() {
         });
         setAllPokemons(results);
         //setAllPokemons([]);
+        
         setLoading(false);
       })
       .catch((error) => {
@@ -43,18 +46,18 @@ function App() {
         setLoading(false);
       });
   }, []);
-
+  console.log("---->", allPokemons)
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header cartPokemon={cartPokemon}/>
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/dashboard">
             {loading && <Loading />}
             {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
-            {!error && <Board allPokemons={allPokemons} />}
+            {!error && <Board allPokemons={allPokemons} cartPokemon={cartPokemon} setCartPokemon={setCartPokemon} />}
           </Route>
           <Route path="/detail/:idPokemon">
             <Detail />
