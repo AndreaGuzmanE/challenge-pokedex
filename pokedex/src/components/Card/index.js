@@ -22,28 +22,35 @@ const PokemonCard = (props) => {
 
   const handleClickAdd = () => {
     setToggle(!toggle);
-    pokemonAdd(idPokemon, name, image).then((newPokemon) => {
+
+    pokemonAdd(idPokemon, name, image ).then((newPokemon) => {
+
       setCartPokemon([...cartPokemon, newPokemon]);
     });
   };
 
-  const deletePokemon = async (cartPokemon) => {
-    await axios
-      .delete(
-        `https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/${cartPokemon[0].id}`
-      )
-      .then((response) => {
-        console.log(response);
-        setCartPokemon(
-          cartPokemon.filter((pokemon) => pokemon.id !== cartPokemon.id)
-        );
-      });
+
+ 
+ 
+   const deletePokemon = async (cartPokemon) => {
+    await axios.delete(
+      `https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/${cartPokemon[0].id}`
+    )
+    .then(response => {
+      console.log(response)
+     setCartPokemon(cartPokemon.filter(pokemon => pokemon.id !== cartPokemon.id))
+    })
   };
 
-  console.log(cartPokemon);
+
+
+   console.log(cartPokemon);
+  
 
   const handleRemove = () => {
     setToggle(!toggle);
+    
+ 
   };
 
   return (
@@ -75,7 +82,9 @@ const PokemonCard = (props) => {
           </Button>
         ) : (
           <Button
-            onClick={/*handleRemove*/ deletePokemon}
+
+        onClick={/*handleRemove*/ deletePokemon}
+
             variant="contained"
             color="error"
             size="small"
