@@ -4,7 +4,16 @@ import PokemonCard from "../Card/index";
 import "./Board.css";
 
 const Board = (props) => {
-  const { allPokemons, cartPokemon, setCartPokemon } = props;
+  const {
+    allPokemons,
+    cartPokemon,
+    setCartPokemon,
+    addPokemon,
+    removePokemon,
+    pokedex,
+    toggle,
+    setToggle,
+  } = props;
 
   return (
     <div className="container-cards">
@@ -17,7 +26,12 @@ const Board = (props) => {
             idPokemon={pokemon.id}
             cartPokemon={cartPokemon}
             setCartPokemon={setCartPokemon}
-            />
+            addPokemon={addPokemon}
+            removePokemon={removePokemon}
+            pokedex={pokedex}
+            toggle={toggle}
+            setToggle={setToggle}
+          />
         );
       })}
     </div>
