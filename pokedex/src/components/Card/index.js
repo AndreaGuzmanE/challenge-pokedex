@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,13 +6,29 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
-import pokemonAdd from "../../helpers/pokemonAdd";
-
-import axios from "axios";
 
 const PokemonCard = (props) => {
-  const { name, image, idPokemon, cartPokemon, setCartPokemon } = props;
-  const [toggle, setToggle] = useState(true);
+  const {
+    name,
+    image,
+    idPokemon,
+    addPokemon,
+    removePokemon,
+    pokedex,
+    cartPokemon,
+  } = props;
+  const [toggle, setToggle] = useState(
+    () =>
+      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+      undefined
+  );
+
+  useEffect(() => {
+    setToggle(
+      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+        undefined
+    );
+  }, [cartPokemon, idPokemon]);
 
   let history = useHistory();
 
@@ -21,36 +37,13 @@ const PokemonCard = (props) => {
   };
 
   const handleClickAdd = () => {
-    setToggle(!toggle);
-
-    pokemonAdd(idPokemon, name, image ).then((newPokemon) => {
-
-      setCartPokemon([...cartPokemon, newPokemon]);
-    });
+    addPokemon(idPokemon, name, image);
   };
 
-
- 
- 
-   const deletePokemon = async (cartPokemon) => {
-    await axios.delete(
-      `https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/${cartPokemon[0].id}`
-    )
-    .then(response => {
-      console.log(response)
-     setCartPokemon(cartPokemon.filter(pokemon => pokemon.id !== cartPokemon.id))
-    })
-  };
-
-
-
-   console.log(cartPokemon);
-  
+  const inPokedex = pokedex.find((element) => element.idPokemon === idPokemon);
 
   const handleRemove = () => {
-    setToggle(!toggle);
-    
- 
+    removePokemon(idPokemon);
   };
 
   return (
@@ -60,7 +53,13 @@ const PokemonCard = (props) => {
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
+        {inPokedex && (
+          <Typography variant="h6" component="div">
+            Guardado
+          </Typography>
+        )}
       </CardContent>
+
       <CardActions
         sx={{
           display: "grid",
@@ -74,6 +73,7 @@ const PokemonCard = (props) => {
         {toggle ? (
           <Button
             onClick={handleClickAdd}
+            disabled={!!inPokedex}
             variant="contained"
             color="success"
             size="small"
@@ -82,9 +82,8 @@ const PokemonCard = (props) => {
           </Button>
         ) : (
           <Button
-
-        onClick={/*handleRemove*/ deletePokemon}
-
+            onClick={handleRemove}
+            disabled={!!inPokedex}
             variant="contained"
             color="error"
             size="small"

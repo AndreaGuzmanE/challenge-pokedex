@@ -8,13 +8,15 @@ import Message from "./components/MessageError";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
+import Counter from "./components/Counter";
 
 function App() {
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cartPokemon, setCartPokemon] = useState([]);
-  
+  const [open, setOpen] = useState(false);
+  const [pokedex, setPokedex] = useState([]);
 
   const getPokemon = async (path) => {
     const response = await api.get(path);
@@ -37,8 +39,6 @@ function App() {
           element.name = capitalLetter + string;
         });
         setAllPokemons(results);
-        //setAllPokemons([]);
-        
         setLoading(false);
       })
       .catch((error) => {
@@ -46,18 +46,52 @@ function App() {
         setLoading(false);
       });
   }, []);
-  console.log("---->", allPokemons)
+
+  const addPokemon = (idPokemon, name, image) => {
+    setCartPokemon((cartPokemon) => [
+      ...cartPokemon,
+      { idPokemon, name, image },
+    ]);
+  };
+
+  const removePokemon = (idPokemon) => {
+    setCartPokemon(
+      cartPokemon.filter((element) => element.idPokemon !== idPokemon)
+    );
+  };
+
+  const cancelPokemons = () => {
+    setCartPokemon([]);
+  };
+
   return (
     <div className="App">
       <Router>
-        <Header cartPokemon={cartPokemon}/>
+        <Header cartPokemon={cartPokemon} open={open} setOpen={setOpen} />
+        <Counter
+          open={open}
+          setOpen={setOpen}
+          cartPokemon={cartPokemon}
+          cancelPokemons={cancelPokemons}
+          pokedex={pokedex}
+          setPokedex={setPokedex}
+        />
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/dashboard">
             {loading && <Loading />}
             {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
-            {!error && <Board allPokemons={allPokemons} cartPokemon={cartPokemon} setCartPokemon={setCartPokemon} />}
+            {!error && (
+              <Board
+                allPokemons={allPokemons}
+                addPokemon={addPokemon}
+                cartPokemon={cartPokemon}
+                setCartPokemon={setCartPokemon}
+                removePokemon={removePokemon}
+                pokedex={pokedex}
+              />
+            )}
           </Route>
           <Route path="/detail/:idPokemon">
             <Detail />
