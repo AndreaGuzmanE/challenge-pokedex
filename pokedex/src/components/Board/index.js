@@ -13,9 +13,11 @@ const Board = (props) => {
     pokedex,
     toggle,
     setToggle,
+    modeMockApi=false,
   } = props;
 
   return (
+    <>
     <div className="container-cards">
       {allPokemons.map((pokemon) => {
         return (
@@ -35,6 +37,7 @@ const Board = (props) => {
         );
       })}
     </div>
+    </>
   );
 };
 Board.propTypes = {

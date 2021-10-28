@@ -16,16 +16,17 @@ const PokemonCard = (props) => {
     removePokemon,
     pokedex,
     cartPokemon,
+    modeMockApi=false,
   } = props;
   const [toggle, setToggle] = useState(
     () =>
-      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+      cartPokemon?.find((pokemon) => pokemon.idPokemon === idPokemon) ===
       undefined
   );
 
   useEffect(() => {
     setToggle(
-      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+      cartPokemon?.find((pokemon) => pokemon.idPokemon === idPokemon) ===
         undefined
     );
   }, [cartPokemon, idPokemon]);
@@ -40,7 +41,7 @@ const PokemonCard = (props) => {
     addPokemon(idPokemon, name, image);
   };
 
-  const inPokedex = pokedex.find((element) => element.idPokemon === idPokemon);
+  const inPokedex = pokedex?.find((element) => element.idPokemon === idPokemon);
 
   const handleRemove = () => {
     removePokemon(idPokemon);
@@ -70,7 +71,7 @@ const PokemonCard = (props) => {
         <Button onClick={handleClick} size="small">
           Detalle
         </Button>
-        {toggle ? (
+        {toggle && !modeMockApi ? (
           <Button
             onClick={handleClickAdd}
             disabled={!!inPokedex}

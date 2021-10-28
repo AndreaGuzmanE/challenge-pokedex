@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import Counter from "./components/Counter";
+import BoardPokedex from "./components/BoardPokedex";
 
 function App() {
   const [allPokemons, setAllPokemons] = useState([]);
@@ -104,6 +105,14 @@ function App() {
               loading={loading}
               setLoading={setLoading}
             />
+          </Route>
+          <Route path="/pokedex/">
+            <BoardPokedex
+            pokedex={pokedex}
+            setPokedex={setPokedex}
+            setLoading={setLoading}
+             setError={setError}
+             />
           </Route>
         </Switch>
       </Router>
