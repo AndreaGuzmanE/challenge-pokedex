@@ -17,15 +17,23 @@ const style = {
 };
 
 const Counter = (props) => {
-  const { open, setOpen, cartPokemon, cancelPokemons, pokedex, setPokedex } =
-    props;
+  const {
+    open,
+    setOpen,
+    cartPokemon,
+    cancelPokemons,
+    pokedex,
+    setPokedex,
+    setError,
+    setLoading,
+  } = props;
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleSavePokemon = () => {
-    savePokemon(cartPokemon, setPokedex);
+    savePokemon(cartPokemon, setPokedex, setLoading, setError);
     cancelPokemons();
     handleClose();
   };
@@ -36,10 +44,9 @@ const Counter = (props) => {
   };
 
   useEffect(() => {
-    getPokedex(setPokedex);
-  }, [setPokedex]);
+    getPokedex(setPokedex, setLoading, setError);
+  }, [setPokedex, setLoading, setError]);
 
-  console.log(pokedex);
   return (
     <Modal
       hideBackdrop
@@ -77,6 +84,11 @@ Counter.propTypes = {
   open: PropTypes.bool,
   setOpen: PropTypes.func,
   cartPokemon: PropTypes.array,
+  cancelPokemons: PropTypes.func,
+  pokedex: PropTypes.array,
+  setPokedex: PropTypes.func,
+  setError: PropTypes.func,
+  setLoading: PropTypes.func,
 };
 
 export default Counter;
