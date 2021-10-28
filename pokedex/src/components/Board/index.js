@@ -17,10 +17,18 @@ const Board = (props) => {
   } = props;
 
   return (
-    <>
+
     <div className="container-cards">
-      {allPokemons.map((pokemon) => {
-        return (
+      { modeMockApi ? 
+      pokedex.map((pokemon) => (<PokemonCard
+            key={pokemon.id}
+            image={pokemon.image}
+            name={pokemon.name}
+            idPokemon={pokemon.id}
+            modeMockApi
+          />
+      )) :
+      allPokemons?.map((pokemon) => (
           <PokemonCard
             key={pokemon.id}
             image={pokemon.image}
@@ -34,10 +42,8 @@ const Board = (props) => {
             toggle={toggle}
             setToggle={setToggle}
           />
-        );
-      })}
+      ))}
     </div>
-    </>
   );
 };
 Board.propTypes = {
