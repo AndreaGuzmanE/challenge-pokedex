@@ -75,6 +75,10 @@ function App() {
           cancelPokemons={cancelPokemons}
           pokedex={pokedex}
           setPokedex={setPokedex}
+          error={error}
+          setError={setError}
+          loading={loading}
+          setLoading={setLoading}
         />
         <Switch>
           <Route exact path="/"></Route>
@@ -94,7 +98,12 @@ function App() {
             )}
           </Route>
           <Route path="/detail/:idPokemon">
-            <Detail />
+            <Detail
+              error={error}
+              setError={setError}
+              loading={loading}
+              setLoading={setLoading}
+            />
           </Route>
         </Switch>
       </Router>

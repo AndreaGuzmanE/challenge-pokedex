@@ -54,7 +54,7 @@ const PokemonCard = (props) => {
           {name}
         </Typography>
         {inPokedex && (
-          <Typography variant="h6" component="div">
+          <Typography sx={{color: "#92D1B3"}} variant="h6" component="div">
             Guardado
           </Typography>
         )}
