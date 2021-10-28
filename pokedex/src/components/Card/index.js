@@ -16,7 +16,7 @@ const PokemonCard = (props) => {
     removePokemon,
     pokedex,
     cartPokemon,
-    modeMockApi=false,
+    modeMockApi = false,
   } = props;
   const [toggle, setToggle] = useState(
     () =>
@@ -55,7 +55,7 @@ const PokemonCard = (props) => {
           {name}
         </Typography>
         {inPokedex && (
-          <Typography sx={{color: "#92D1B3"}} variant="h6" component="div">
+          <Typography sx={{ color: "#92D1B3" }} variant="h6" component="div">
             Guardado
           </Typography>
         )}
