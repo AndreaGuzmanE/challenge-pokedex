@@ -7,7 +7,7 @@ import Loading from "../Loading";
 
 const Detail = (props) => {
   const {error, setError,  loading, setLoading }= props;
-  let { idPokemon } = useParams();
+  let { id } = useParams();
 
   const [pokemon, setPokemon] = useState({});
   
@@ -15,7 +15,7 @@ const Detail = (props) => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}/`)
+      .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then((response) => {
         const { data } = response;
         setPokemon(data);
@@ -25,7 +25,7 @@ const Detail = (props) => {
         setError(error);
         setLoading(false);
       });
-  }, [idPokemon, setError, setLoading]);
+  }, [id, setError, setLoading]);
 
   return (
     <>
