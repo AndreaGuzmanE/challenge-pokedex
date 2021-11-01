@@ -47,17 +47,12 @@ function App() {
       });
   }, []);
 
-  const addPokemon = (idPokemon, name, image) => {
-    setCartPokemon((cartPokemon) => [
-      ...cartPokemon,
-      { idPokemon, name, image },
-    ]);
+  const addPokemon = (id, name, image) => {
+    setCartPokemon((cartPokemon) => [...cartPokemon, { id, name, image }]);
   };
 
-  const removePokemon = (idPokemon) => {
-    setCartPokemon(
-      cartPokemon.filter((element) => element.idPokemon !== idPokemon)
-    );
+  const removePokemon = (id) => {
+    setCartPokemon(cartPokemon.filter((element) => element.id !== id));
   };
 
   const cancelPokemons = () => {
@@ -97,7 +92,7 @@ function App() {
               />
             )}
           </Route>
-          <Route path="/detail/:idPokemon">
+          <Route path="/detail/:id">
             <Detail
               error={error}
               setError={setError}
@@ -106,7 +101,13 @@ function App() {
             />
           </Route>
           <Route path="/pokedex/">
-            <Board pokedex={pokedex} modeMockApi />
+            <Board
+              pokedex={pokedex}
+              setPokedex={setPokedex}
+              setError={setError}
+              setLoading={setLoading}
+              modeMockApi
+            />
           </Route>
         </Switch>
       </Router>
