@@ -5,17 +5,6 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import savePokemon, { getPokedex } from "../helpers/savePokemon";
 
-const style = {
-  position: "absolute",
-  left: "53%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
-
 const Counter = (props) => {
   const {
     open,
@@ -57,12 +46,17 @@ const Counter = (props) => {
     >
       <Box
         sx={{
-          ...style,
-          width: 200,
+          width: 300,
+          height: 150,
+          padding: 1,
+          marginTop: 1,
+          marginLeft: 178,
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          alignItems: "center",
           textAlign: "center",
+          borderRadius: 3,
+          justifyContent: "end",
+          backgroundColor: "white",
         }}
       >
         <div>

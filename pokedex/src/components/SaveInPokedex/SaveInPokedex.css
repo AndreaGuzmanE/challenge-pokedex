@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap");
 
-.header {
-  display: flex;
-  justify-content:left;
-  margin-left: 40%;
+.pokeball {
+  width: 200px;
+  height: 200px;
+}
+
+.not-save {
+  color: silver;
   font-family: "ZCOOL KuaiLe";
   font-weight: bold;
   font-size: 35px;
-  color: #fad61d;
   text-shadow: -2px -2px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000,
     2px -2px 1px #000;
 }
-
-

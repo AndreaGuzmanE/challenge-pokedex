@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import Counter from "./components/Counter";
+import PokedexIcon from "./components/Pokedex/PokedexIcon";
 
 function App() {
   const [allPokemons, setAllPokemons] = useState([]);
@@ -17,6 +18,8 @@ function App() {
   const [cartPokemon, setCartPokemon] = useState([]);
   const [open, setOpen] = useState(false);
   const [pokedex, setPokedex] = useState([]);
+  const [isInPokedex, setIsInPokedex] = useState(false);
+  
 
   const getPokemon = async (path) => {
     const response = await api.get(path);
@@ -62,7 +65,10 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header cartPokemon={cartPokemon} open={open} setOpen={setOpen} />
+        <Header
+          isInPokedex={isInPokedex}
+          setIsInPokedex={setIsInPokedex}
+        />
         <Counter
           open={open}
           setOpen={setOpen}
@@ -78,6 +84,11 @@ function App() {
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/dashboard">
+            <PokedexIcon
+              cartPokemon={cartPokemon}
+              open={open}
+              setOpen={setOpen}
+            />
             {loading && <Loading />}
             {allPokemons.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}

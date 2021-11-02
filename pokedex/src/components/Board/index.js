@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import PokemonCard from "../Card/index";
+import SaveInPokedex from "../SaveInPokedex";
 import "./Board.css";
 
 const Board = (props) => {
@@ -20,37 +21,40 @@ const Board = (props) => {
   } = props;
 
   return (
-    <div className="container-cards">
-      {modeMockApi
-        ? pokedex.map((pokemon) => (
-            <PokemonCard
-              key={pokemon.id}
-              image={pokemon.image}
-              name={pokemon.name}
-              id={pokemon.id}
-              objectId={pokemon.objectId}
-              setPokedex={setPokedex}
-              setError={setError}
-              setLoading={setLoading}
-              modeMockApi
-            />
-          ))
-        : allPokemons?.map((pokemon) => (
-            <PokemonCard
-              key={pokemon.id}
-              image={pokemon.image}
-              name={pokemon.name}
-              id={pokemon.id}
-              cartPokemon={cartPokemon}
-              setCartPokemon={setCartPokemon}
-              addPokemon={addPokemon}
-              removePokemon={removePokemon}
-              pokedex={pokedex}
-              toggle={toggle}
-              setToggle={setToggle}
-            />
-          ))}
-    </div>
+    <>
+      {modeMockApi && pokedex?.length === 0 && <SaveInPokedex />}
+      <div className="container-cards">
+        {modeMockApi
+          ? pokedex.map((pokemon) => (
+              <PokemonCard
+                key={pokemon.id}
+                image={pokemon.image}
+                name={pokemon.name}
+                id={pokemon.id}
+                objectId={pokemon.objectId}
+                setPokedex={setPokedex}
+                setError={setError}
+                setLoading={setLoading}
+                modeMockApi
+              />
+            ))
+          : allPokemons?.map((pokemon) => (
+              <PokemonCard
+                key={pokemon.id}
+                image={pokemon.image}
+                name={pokemon.name}
+                id={pokemon.id}
+                cartPokemon={cartPokemon}
+                setCartPokemon={setCartPokemon}
+                addPokemon={addPokemon}
+                removePokemon={removePokemon}
+                pokedex={pokedex}
+                toggle={toggle}
+                setToggle={setToggle}
+              />
+            ))}
+      </div>
+    </>
   );
 };
 Board.propTypes = {
