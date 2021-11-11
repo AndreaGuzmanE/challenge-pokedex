@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,10 +8,42 @@ import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
 
 const PokemonCard = (props) => {
-  const { name, image, idPokemon } = props;
+  const {
+    name,
+    image,
+    idPokemon,
+    addPokemon,
+    removePokemon,
+    pokedex,
+    cartPokemon,
+  } = props;
+  const [toggle, setToggle] = useState(
+    () =>
+      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+      undefined
+  );
+
+  useEffect(() => {
+    setToggle(
+      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
+        undefined
+    );
+  }, [cartPokemon, idPokemon]);
+
   let history = useHistory();
+
   const handleClick = () => {
     history.push(`/detail/${idPokemon}`);
+  };
+
+  const handleClickAdd = () => {
+    addPokemon(idPokemon, name, image);
+  };
+
+  const inPokedex = pokedex.find((element) => element.idPokemon === idPokemon);
+
+  const handleRemove = () => {
+    removePokemon(idPokemon);
   };
 
   return (
@@ -21,11 +53,44 @@ const PokemonCard = (props) => {
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
+        {inPokedex && (
+          <Typography sx={{color: "#92D1B3"}} variant="h6" component="div">
+            Guardado
+          </Typography>
+        )}
       </CardContent>
-      <CardActions>
+
+      <CardActions
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          alignItems: "center",
+        }}
+      >
         <Button onClick={handleClick} size="small">
           Detalle
         </Button>
+        {toggle ? (
+          <Button
+            onClick={handleClickAdd}
+            disabled={!!inPokedex}
+            variant="contained"
+            color="success"
+            size="small"
+          >
+            Agregar
+          </Button>
+        ) : (
+          <Button
+            onClick={handleRemove}
+            disabled={!!inPokedex}
+            variant="contained"
+            color="error"
+            size="small"
+          >
+            Eliminar
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

@@ -20,6 +20,9 @@ const useStyles = makeStyles(() => ({
       backgroundColor: "#D6EAF8",
     },
   },
+  name: {
+    textTransform: "uppercase",
+  }
 }));
 
 const PokemonDetail = (props) => {
@@ -43,7 +46,7 @@ const PokemonDetail = (props) => {
       {sprites === undefined ? null : (
         <Grid container justifyContent="center">
           <Card className="pokemon-container">
-            <Typography variant="h3" className="name" paragraph>
+            <Typography variant="h3" className={styles.name} paragraph>
               {name}
             </Typography>
             <Grid

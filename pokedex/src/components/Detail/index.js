@@ -5,12 +5,12 @@ import PokemonDetail from "../PokemonDetail";
 import Message from "../MessageError";
 import Loading from "../Loading";
 
-const Detail = () => {
+const Detail = (props) => {
+  const {error, setError,  loading, setLoading }= props;
   let { idPokemon } = useParams();
 
   const [pokemon, setPokemon] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +25,7 @@ const Detail = () => {
         setError(error);
         setLoading(false);
       });
-  }, [idPokemon]);
+  }, [idPokemon, setError, setLoading]);
 
   return (
     <>
