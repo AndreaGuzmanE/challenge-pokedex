@@ -1,14 +1,14 @@
 import React from "react";
 import Pokeball from "../../assets/pokeball.png";
-import "./NotFound.css";
+import "./SaveInPokedex.css";
 
-const NotFound = () => {
+const SaveInPokedex = () => {
   return (
     <div>
       <img className="pokeball" src={Pokeball} alt="not-found" />
-      <h3 className="not-found">No se encontraron resultados</h3>
+      <h3 className="not-save">No has guardado ningún pokemon</h3>
     </div>
   );
 };
 
-export default NotFound;
+export default SaveInPokedex;

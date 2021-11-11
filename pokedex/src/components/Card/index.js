@@ -6,44 +6,49 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
+import { deletePokemon } from "../../helpers/savePokemon";
 
 const PokemonCard = (props) => {
   const {
     name,
     image,
-    idPokemon,
+    id,
+    objectId,
     addPokemon,
     removePokemon,
     pokedex,
     cartPokemon,
+    setPokedex,
+    setError,
+    setLoading,
+    modeMockApi = false,
   } = props;
   const [toggle, setToggle] = useState(
-    () =>
-      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
-      undefined
+    () => cartPokemon?.find((pokemon) => pokemon.id === id) === undefined
   );
 
   useEffect(() => {
-    setToggle(
-      cartPokemon.find((pokemon) => pokemon.idPokemon === idPokemon) ===
-        undefined
-    );
-  }, [cartPokemon, idPokemon]);
+    setToggle(cartPokemon?.find((pokemon) => pokemon.id === id) === undefined);
+  }, [cartPokemon, id]);
 
   let history = useHistory();
 
   const handleClick = () => {
-    history.push(`/detail/${idPokemon}`);
+    history.push(`/detail/${id}`);
   };
 
   const handleClickAdd = () => {
-    addPokemon(idPokemon, name, image);
+    addPokemon(id, name, image);
   };
 
-  const inPokedex = pokedex.find((element) => element.idPokemon === idPokemon);
+  const inPokedex = pokedex?.find((element) => element.id === id);
 
-  const handleRemove = () => {
-    removePokemon(idPokemon);
+  const handleDelete = () => {
+    if (modeMockApi) {
+      return deletePokemon(objectId, setPokedex, setLoading, setError);
+    } else {
+      return removePokemon(id);
+    }
   };
 
   return (
@@ -54,7 +59,7 @@ const PokemonCard = (props) => {
           {name}
         </Typography>
         {inPokedex && (
-          <Typography sx={{color: "#92D1B3"}} variant="h6" component="div">
+          <Typography sx={{ color: "#92D1B3" }} variant="h6" component="div">
             Guardado
           </Typography>
         )}
@@ -70,7 +75,7 @@ const PokemonCard = (props) => {
         <Button onClick={handleClick} size="small">
           Detalle
         </Button>
-        {toggle ? (
+        {toggle && !modeMockApi ? (
           <Button
             onClick={handleClickAdd}
             disabled={!!inPokedex}
@@ -82,7 +87,7 @@ const PokemonCard = (props) => {
           </Button>
         ) : (
           <Button
-            onClick={handleRemove}
+            onClick={handleDelete}
             disabled={!!inPokedex}
             variant="contained"
             color="error"
@@ -98,7 +103,16 @@ const PokemonCard = (props) => {
 Card.propTypes = {
   name: PropTypes.string,
   image: PropTypes.string,
-  idPokemon: PropTypes.number,
+  id: PropTypes.number,
+  objectId: PropTypes.number,
+  addPokemon: PropTypes.func,
+  removePokemon: PropTypes.func,
+  pokedex: PropTypes.array,
+  cartPokemon: PropTypes.array,
+  setPokedex: PropTypes.func,
+  setError: PropTypes.func,
+  setLoading: PropTypes.func,
+  modeMockApi: PropTypes.bool,
 };
 
 export default PokemonCard;
