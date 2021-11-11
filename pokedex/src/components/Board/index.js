@@ -14,6 +14,7 @@ const Board = (props) => {
             key={pokemon.id}
             image={pokemon.image}
             name={pokemon.name}
+            idPokemon={pokemon.id}
           />
         );
       })}
