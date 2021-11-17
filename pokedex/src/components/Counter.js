@@ -60,7 +60,7 @@ const Counter = (props) => {
         }}
       >
         <div>
-          <h2 id="child-modal-title">{cartPokemon.length}</h2>
+          <h2 id="child-modal-title">{cartPokemon?.length}</h2>
           <p id="child-modal-description">Seleccionados</p>
           <Button onClick={handleCancelPokemons}>Cancelar</Button>
         </div>

@@ -31,7 +31,7 @@ const PokedexIcon = (props) => {
           verticalAlign: "top",
         }}
       >
-        {cartPokemon?.length === 0 ? null : cartPokemon.length}
+        {cartPokemon?.length === 0 ? null : cartPokemon?.length}
       </Typography>
     </Box>
   );
