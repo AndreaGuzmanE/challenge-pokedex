@@ -10,73 +10,21 @@ import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import Counter from "./components/Counter";
 import PokedexIcon from "./components/Pokedex/PokedexIcon";
-// import { pokedexInitialState, pokedexReducer } from "./reducers/pokedexReducer";
-// import { TYPES } from "./actions/pokedexActions";
 
-const SET_GET_POKEMONS = "SET_GET_POKEMONS";
-const SUCCESS_GET_POKEMON = "SUCCESS_GET_POKEMON";
-const ERROR_GET_POKEMONS = "ERROR_GET_POKEMONS";
-
-const INITIAL_STATE = {
-  loading: false,
-  error: null,
-  allPokemons: [],
-  cartPokemon: [],
-  pokedex: [],
-  open: false,
-  isInPokedex: false,
-};
-
-const reducer = (action, state) => {
-  switch (action.type) {
-    case SET_GET_POKEMONS:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-        open: false,
-      };
-    case SUCCESS_GET_POKEMON:
-      console.log("---->", action.payload)
-     const data = action.payload.map((element) => {
-        const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
-        console.log("elemento:", element)
-         const id = element.url.replace(apiUrl, "").replace("/", "");
-        
-        const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`; 
-        const capitalLetter = element.name.charAt(0).toUpperCase();
-         const string = element.name.slice(1);
-         //console.log(id)
-        return {
-          name: capitalLetter + string,
-          image,
-          id,
-          url: element.url,
-        };
-        
-      });
-      console.log("data",data)
-   
-      return {
-        ...state,
-        loading: false,
-        allPokemons: data,
-      };
-    case ERROR_GET_POKEMONS:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+import reducer, { INITIAL_STATE } from "./store/dashboard/reducer";
+import {
+  setGetPokemons,
+  successGetPokemons,
+  errorGetPokemons,
+  setOpenModal,
+  addPokemon,
+} from "./store/dashboard/actions";
 
 function App() {
   // const [allPokemons, setAllPokemons] = useState([]);
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  console.log(state);
+  console.log("STATE ==>", state);
+  const { loading, allPokemons, error, isInPokedex, cartPokemon, open } = state;
   // const {allPokemons, cartPokemon} = state;
 
   // const [loading, setLoading] = useState(false);
@@ -87,12 +35,12 @@ function App() {
   // const [isInPokedex, setIsInPokedex] = useState(false);
 
   const getPokemon = async (path) => {
-    dispatch({ type: SET_GET_POKEMONS });
+    dispatch(setGetPokemons());
     try {
       const response = await api.get(path);
-      dispatch({ type: SUCCESS_GET_POKEMON, payload: response.data.results });
+      dispatch(successGetPokemons(response.data.results));
     } catch (error) {
-      dispatch({ type: ERROR_GET_POKEMONS, payload: error });
+      dispatch(errorGetPokemons(error));
     }
   };
 
@@ -100,39 +48,13 @@ function App() {
     getPokemon();
   }, []);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setError(null);
-  //   getPokemon()
-  //     .then((data) => {
-  //       const { results } = data;
-  //       results.forEach((element) => {
-  //         const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
-  //         const id = element.url.replace(apiUrl, "").replace("/", "");
-  //         element.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-  //         element.id = id;
-  //         const capitalLetter = element.name.charAt(0).toUpperCase();
-  //         const string = element.name.slice(1);
-  //         element.name = capitalLetter + string;
-  //       });
-  //       dispatch({type: TYPES.GET_POKEMONS, payload:results});
-  //       //setAllPokemons(results);
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       setError(error);
-  //       setLoading(false);
-  //     });
-  // }, []);
+  const openModal = () => dispatch(setOpenModal());
 
-  // const addPokemon = (id, name, image) => {
-  //   setCartPokemon((cartPokemon) => [...cartPokemon, { id, name, image }]);
-  // };
+  const addPokemonHandler = (id, name, image) => {
+    console.log(id, name, image);
 
-  // const addPokemon = (id, name, image) => {
-  //  dispatch({type:TYPES.ADD_POKEMON, payload: {id, name, image}})
-  //     //  setCartPokemon(setCartPokemon((cartPokemon) => [...cartPokemon, { id, name, image }]));
-  //    };
+    dispatch(addPokemon({ id, name, image }));
+  };
 
   // const removePokemon = (id) => {
   // //  setCartPokemon(cartPokemon.filter((element) => element.id !== id));
@@ -164,24 +86,24 @@ function App() {
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/dashboard">
-            {/*<PokedexIcon
-              cartPokemon={state.cartPokemon}
+            <PokedexIcon
+              cartPokemon={cartPokemon}
               open={open}
-              setOpen={setOpen}
-            /> */}
-            {/* {loading && <Loading />} */}
-            {/* {allPokemons?.length === 0 && !error && !loading && <NotFound />} */}
-            {/* {error && <Message />}
-            {!error && ( */}
-            <Board
-              allPokemons={state.allPokemons}
-              // addPokemon={addPokemon}
-              // cartPokemon={state.cartPokemon}
-              /* setCartPokemon={setCartPokemon}*/
-              // removePokemon={removePokemon}
-              // pokedex={pokedex}
+              setOpen={openModal}
             />
-            {/* )} */}
+            {loading && <Loading />}
+            {allPokemons?.length === 0 && !error && !loading && <NotFound />}
+            {error && <Message />}
+            {!error && (
+              <Board
+                allPokemons={allPokemons}
+                addPokemon={addPokemonHandler}
+                // cartPokemon={state.cartPokemon}
+                /* setCartPokemon={setCartPokemon}*/
+                // removePokemon={removePokemon}
+                // pokedex={pokedex}
+              />
+            )}
           </Route>
           {/* <Route path="/detail/:id">
             <Detail

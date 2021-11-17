@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import {Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
 const PokedexIcon = (props) => {
   const { cartPokemon, open, setOpen } = props;
@@ -10,10 +10,15 @@ const PokedexIcon = (props) => {
     setOpen(!open);
   };
   return (
-    <Box sx={{display: "flex", justifyContent:"flex-end" }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
       <ShoppingBagIcon
         onClick={openModal}
-        sx={{ fontSize: 30, color: "blue", position:"relative", marginRight:3}}
+        sx={{
+          fontSize: 30,
+          color: "blue",
+          position: "relative",
+          marginRight: 3,
+        }}
       />
       <Typography
         variant="body1"
@@ -22,7 +27,7 @@ const PokedexIcon = (props) => {
         sx={{
           fontSize: 14,
           paddingX: 1,
-          position:"absolute",
+          position: "absolute",
           right: 15,
           backgroundColor: "#fad61d",
           color: "blue",
