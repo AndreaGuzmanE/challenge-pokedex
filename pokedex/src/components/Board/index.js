@@ -2,20 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import PokemonCard from "../Card/index";
 import SaveInPokedex from "../SaveInPokedex";
+import { useOwnContext } from "../../store/dashboard/storeApi";
+
 import "./Board.css";
 
 const Board = (props) => {
-  const {
-    allPokemons,
-    cartPokemon,
-    addPokemon,
-    removePokemon,
-    pokedex,
-    dispatch,
-    setToogle,
-    modeMockApi = false,
-  } = props;
-
+  const { modeMockApi } = props;
+  const { allPokemons, pokedex } = useOwnContext();
   return (
     <>
       {modeMockApi && pokedex?.length === 0 && <SaveInPokedex />}
@@ -29,9 +22,6 @@ const Board = (props) => {
                 id={pokemon.id}
                 objectId={pokemon.objectId}
                 modeMockApi
-                dispatch={dispatch}
-                toggle={pokemon.toggle}
-                setToogle={setToogle}
               />
             ))
           : allPokemons?.map((pokemon) => (
@@ -40,13 +30,6 @@ const Board = (props) => {
                 image={pokemon.image}
                 name={pokemon.name}
                 id={pokemon.id}
-                cartPokemon={cartPokemon}
-                addPokemon={addPokemon}
-                removePokemon={removePokemon}
-                pokedex={pokedex}
-                dispatch={dispatch}
-                setToogle={setToogle}
-                toggle={pokemon.toggle}
               />
             ))}
       </div>

@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import { useOwnContext } from "../../store/dashboard/storeApi";
+
 import { Typography, Box } from "@mui/material";
 
 const BagIcon = (props) => {
-  const { cartPokemon, openModal } = props;
+  const { cartPokemon, setOpenModal } = useOwnContext();
 
   const handleOpenModal = () => {
-    openModal();
+    setOpenModal();
   };
 
   return (

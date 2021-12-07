@@ -7,42 +7,41 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
 import { deletePokemon } from "../../helpers/savePokemon";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
 const PokemonCard = (props) => {
+  const { name, image, id, objectId, modeMockApi = false } = props;
+
   const {
-    name,
-    image,
-    id,
-    objectId,
-    addPokemon,
-    removePokemon,
     pokedex,
+    setRemovePokemon,
     cartPokemon,
-    dispatch,
-    modeMockApi = false,
-  } = props;
-
-  // useEffect(() => {
-  //   setToogle({id});
-  // }, [cartPokemon, id]);
-
-  let history = useHistory();
+    addPokemon,
+    setGetPokemons,
+    errorGetPokemons,
+    setGetPokedex,
+  } = useOwnContext();
+  const history = useHistory();
 
   const handleClick = () => {
     history.push(`/detail/${id}`);
   };
 
   const handleClickAdd = () => {
-    addPokemon(id, name, image, cartPokemon);
+    addPokemon({ id, name, image });
   };
 
   const inPokedex = pokedex?.find((element) => element.id === id);
 
   const handleDelete = () => {
     if (modeMockApi) {
-      return deletePokemon(objectId, dispatch);
+      return deletePokemon(objectId, {
+        setGetPokemons,
+        errorGetPokemons,
+        setGetPokedex,
+      });
     } else {
-      return removePokemon(id);
+      return setRemovePokemon(id);
     }
   };
 

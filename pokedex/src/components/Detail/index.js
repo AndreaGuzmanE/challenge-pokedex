@@ -4,28 +4,32 @@ import axios from "axios";
 import PokemonDetail from "../PokemonDetail";
 import Message from "../MessageError";
 import Loading from "../Loading";
-import {
-  errorGetPokemons,
-  setGetPokemons,
-  setPokemonDetail,
-} from "../../store/dashboard/actions";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
 const Detail = (props) => {
-  const { error, loading, dispatch, pokemon } = props;
+  const {
+    error,
+    loading,
+    pokemon,
+    setGetPokemons,
+    setPokemonDetail,
+    errorGetPokemons,
+  } = useOwnContext();
+
   let { id } = useParams();
 
   useEffect(() => {
-    dispatch(setGetPokemons());
+    setGetPokemons();
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then((response) => {
         const { data } = response;
-        dispatch(setPokemonDetail(data));
+        setPokemonDetail(data);
       })
       .catch((error) => {
-        dispatch(errorGetPokemons(error));
+        errorGetPokemons(error);
       });
-  }, [id, dispatch]);
+  }, [id]);
 
   return (
     <>

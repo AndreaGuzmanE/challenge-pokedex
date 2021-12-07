@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-  setGetPokedex,
-  errorGetPokemons,
-  setGetPokemons,
-} from "../store/dashboard/actions";
+import { errorGetPokemons, setGetPokemons } from "../store/dashboard/actions";
 
 const savePokemon = async (cartPokemon, dispatch) => {
   try {
@@ -15,19 +11,19 @@ const savePokemon = async (cartPokemon, dispatch) => {
     }
     getPokedex(dispatch);
   } catch (error) {
-    dispatch(errorGetPokemons(error));
+    dispatch.errorGetPokemons(error);
   }
 };
 
 export const getPokedex = async (dispatch) => {
   const mockApi =
     "https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/";
-  dispatch(setGetPokemons());
+  dispatch.setGetPokemons();
   try {
     const data = await axios.get(mockApi).then((response) => response.data);
-    dispatch(setGetPokedex(data));
+    dispatch.setGetPokedex(data);
   } catch (error) {
-    dispatch(errorGetPokemons(error));
+    dispatch.errorGetPokemons(error);
   }
 };
 

@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
+
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import savePokemon, { getPokedex } from "../helpers/savePokemon";
+import { getPokedex } from "../helpers/savePokemon";
+import { useOwnContext } from "../store/dashboard/storeApi";
+
 import { makeStyles } from "@mui/styles";
 
 import BagIcon from "../components/Pokedex";
@@ -23,21 +27,39 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Counter = (props) => {
+const Counter = () => {
   const styles = useStyles();
-  const { isOpen, openModal, cartPokemon, cancelPokemons, pokedex, dispatch } =
-    props;
+  const {
+    isOpen,
+    openModal,
+    cartPokemon,
+    setCleanCart,
+    pokedex,
+    errorGetPokemons,
+    setGetPokemons,
+    setGetPokedex,
+  } = useOwnContext();
 
-  const handleCancelPokemons = () => cancelPokemons();
+  const handleCancelPokemons = () => setCleanCart();
 
-  const handleSavePokemon = () => {
-    savePokemon(cartPokemon, dispatch);
-    cancelPokemons();
+  const handleSavePokemon = async () => {
+    try {
+      for await (const response of cartPokemon.map((element) => element)) {
+        await axios.post(
+          "https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/",
+          response
+        );
+      }
+      handleCancelPokemons();
+      getPokedex({
+        errorGetPokemons,
+        setGetPokemons,
+        setGetPokedex,
+      });
+    } catch (error) {
+      errorGetPokemons(error);
+    }
   };
-
-  useEffect(() => {
-    getPokedex(dispatch);
-  }, [dispatch]);
 
   const body = (
     <div className={styles.modal}>

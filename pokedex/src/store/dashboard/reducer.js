@@ -1,3 +1,4 @@
+import { useReducer, useContext } from "react";
 import {
   SET_GET_POKEMONS,
   SUCCESS_GET_POKEMON,
@@ -11,6 +12,7 @@ import {
   POKEMON_DETAIL,
   SET_DELETE_POKEMON,
 } from "./actionTypes";
+import Context from "./context";
 
 export const INITIAL_STATE = {
   loading: false,
@@ -111,4 +113,12 @@ const reducer = (state, action) => {
   }
 };
 
-export default reducer;
+export const StoreProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+
+  return (
+    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+  );
+};
+
+export const useStore = () => useContext(Context);
