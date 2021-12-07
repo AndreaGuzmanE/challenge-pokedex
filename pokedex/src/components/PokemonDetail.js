@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   },
   name: {
     textTransform: "uppercase",
-  }
+  },
 }));
 
 const PokemonDetail = (props) => {

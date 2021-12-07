@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import PokemonDetail from "../PokemonDetail";
 import Message from "../MessageError";
 import Loading from "../Loading";
+import {
+  errorGetPokemons,
+  setGetPokemons,
+  setPokemonDetail,
+} from "../../store/dashboard/actions";
 
 const Detail = (props) => {
-  const {error, setError,  loading, setLoading }= props;
+  const { error, loading, dispatch, pokemon } = props;
   let { id } = useParams();
 
-  const [pokemon, setPokemon] = useState({});
-  
-
   useEffect(() => {
-    setLoading(true);
+    dispatch(setGetPokemons());
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then((response) => {
         const { data } = response;
-        setPokemon(data);
-        setLoading(false);
+        dispatch(setPokemonDetail(data));
       })
       .catch((error) => {
-        setError(error);
-        setLoading(false);
+        dispatch(errorGetPokemons(error));
       });
-  }, [id, setError, setLoading]);
+  }, [id, dispatch]);
 
   return (
     <>

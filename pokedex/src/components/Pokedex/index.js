@@ -1,19 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import {Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
-const PokedexIcon = (props) => {
-  const { cartPokemon, open, setOpen } = props;
+const BagIcon = (props) => {
+  const { cartPokemon, openModal } = props;
 
-  const openModal = () => {
-    setOpen(!open);
+  const handleOpenModal = () => {
+    openModal();
   };
+
   return (
-    <Box sx={{display: "flex", justifyContent:"flex-end" }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
       <ShoppingBagIcon
-        onClick={openModal}
-        sx={{ fontSize: 30, color: "blue", position:"relative", marginRight:3}}
+        onClick={handleOpenModal}
+        sx={{
+          fontSize: 30,
+          color: "blue",
+          position: "relative",
+          marginRight: 3,
+        }}
       />
       <Typography
         variant="body1"
@@ -22,7 +28,7 @@ const PokedexIcon = (props) => {
         sx={{
           fontSize: 14,
           paddingX: 1,
-          position:"absolute",
+          position: "absolute",
           right: 15,
           backgroundColor: "#fad61d",
           color: "blue",
@@ -31,16 +37,15 @@ const PokedexIcon = (props) => {
           verticalAlign: "top",
         }}
       >
-        {cartPokemon?.length === 0 ? null : cartPokemon.length}
+        {cartPokemon?.length === 0 ? null : cartPokemon?.length}
       </Typography>
     </Box>
   );
 };
 
-PokedexIcon.propTypes = {
+BagIcon.propTypes = {
   cartPokemon: PropTypes.array,
-  open: PropTypes.bool,
-  setOpen: PropTypes.func,
+  openModal: PropTypes.func,
 };
 
-export default PokedexIcon;
+export default BagIcon;
