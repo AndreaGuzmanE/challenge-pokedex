@@ -3,7 +3,13 @@ import {
   SUCCESS_GET_POKEMON,
   ERROR_GET_POKEMONS,
   SET_OPEN_MODAL,
+  CLEAN_CART,
   ADD_POKEMON,
+  BACK_DASHBOARD,
+  SET_REMOVE_POKEMON,
+  SET_GET_POKEDEX,
+  POKEMON_DETAIL,
+  SET_DELETE_POKEMON,
 } from "./actionTypes";
 
 export const INITIAL_STATE = {
@@ -12,8 +18,9 @@ export const INITIAL_STATE = {
   allPokemons: [],
   cartPokemon: [],
   pokedex: [],
-  open: false,
+  isOpen: false,
   isInPokedex: false,
+  pokemon: {},
 };
 
 const reducer = (state, action) => {
@@ -22,8 +29,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: true,
-        error: null,
-        open: false,
       };
     case SUCCESS_GET_POKEMON:
       const data = action.payload.map((element) => {
@@ -44,28 +49,62 @@ const reducer = (state, action) => {
         loading: false,
         allPokemons: data,
       };
+
+    case POKEMON_DETAIL:
+      return {
+        ...state,
+        pokemon: action.payload,
+        loading: false,
+      };
     case ERROR_GET_POKEMONS:
       return {
         ...state,
-        loading: false,
         error: action.payload,
+      };
+    case ADD_POKEMON:
+      const newPokemon = state.allPokemons.find(
+        (pokemon) => pokemon.id === action.payload.id
+      );
+      return {
+        ...state,
+        cartPokemon: [...state.cartPokemon, newPokemon],
       };
     case SET_OPEN_MODAL:
       return {
         ...state,
-        open: true,
+        isOpen: true,
       };
-    case ADD_POKEMON:
+
+    case BACK_DASHBOARD:
       return {
         ...state,
-        cartPokemon: [
-          ...state.cartPokemon,
-          {
-            id: action.payload.id,
-            name: action.payload.name,
-            image: action.payload.image,
-          },
-        ],
+        isInPokedex: !state.isInPokedex,
+      };
+    case CLEAN_CART:
+      return {
+        ...state,
+        cartPokemon: [],
+        isOpen: false,
+      };
+    case SET_REMOVE_POKEMON:
+      return {
+        ...state,
+        cartPokemon: state.cartPokemon.filter(
+          (element) => element.id !== action.payload
+        ),
+      };
+    case SET_GET_POKEDEX:
+      return {
+        ...state,
+        pokedex: action.payload,
+        loading: false,
+        error: null,
+      };
+    case SET_DELETE_POKEMON:
+      return {
+        ...state,
+        pokedex: action.payload,
+        loading: false,
       };
     default:
       return state;

@@ -8,15 +8,11 @@ const Board = (props) => {
   const {
     allPokemons,
     cartPokemon,
-    setCartPokemon,
     addPokemon,
     removePokemon,
     pokedex,
-    toggle,
-    setToggle,
-    setPokedex,
-    setError,
-    setLoading,
+    dispatch,
+    setToogle,
     modeMockApi = false,
   } = props;
 
@@ -32,10 +28,10 @@ const Board = (props) => {
                 name={pokemon.name}
                 id={pokemon.id}
                 objectId={pokemon.objectId}
-                setPokedex={setPokedex}
-                setError={setError}
-                setLoading={setLoading}
                 modeMockApi
+                dispatch={dispatch}
+                toggle={pokemon.toggle}
+                setToogle={setToogle}
               />
             ))
           : allPokemons?.map((pokemon) => (
@@ -45,12 +41,12 @@ const Board = (props) => {
                 name={pokemon.name}
                 id={pokemon.id}
                 cartPokemon={cartPokemon}
-                setCartPokemon={setCartPokemon}
                 addPokemon={addPokemon}
                 removePokemon={removePokemon}
                 pokedex={pokedex}
-                toggle={toggle}
-                setToggle={setToggle}
+                dispatch={dispatch}
+                setToogle={setToogle}
+                toggle={pokemon.toggle}
               />
             ))}
       </div>
@@ -60,15 +56,10 @@ const Board = (props) => {
 Board.propTypes = {
   allPokemons: PropTypes.array,
   cartPokemon: PropTypes.array,
-  setCartPokemon: PropTypes.func,
   addPokemon: PropTypes.func,
   removePokemon: PropTypes.func,
   pokedex: PropTypes.array,
-  toggle: PropTypes.bool,
-  setToggle: PropTypes.func,
-  setPokedex: PropTypes.func,
-  setError: PropTypes.func,
-  setLoading: PropTypes.func,
+  dispatch: PropTypes.func,
   modeMockApi: PropTypes.bool,
 };
 

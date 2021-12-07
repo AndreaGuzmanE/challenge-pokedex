@@ -4,13 +4,12 @@ import pokedexImage from "../../assets/pokedex.png";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { backDashboard } from "../../store/dashboard/actions";
 
 const Header = (props) => {
-  const { setIsInPokedex, isInPokedex } = props;
+  const { isInPokedex, dispatch } = props;
 
-  const goAndRetunrn = () => {
-    setIsInPokedex(!isInPokedex);
-  };
+  const handleClickReturn = () => dispatch(backDashboard());
 
   return (
     <div className="header">
@@ -19,7 +18,7 @@ const Header = (props) => {
           <div style={{ alignItems: "flex-start", marginTop: 70 }}>
             <button
               style={{ background: "none", color: "inherit", border: "none" }}
-              onClick={goAndRetunrn}
+              onClick={handleClickReturn}
             >
               <ArrowBackIcon
                 style={{ color: "#474B4E", fontWeight: "bolder" }}
@@ -29,14 +28,14 @@ const Header = (props) => {
         </Link>
       ) : null}
       <div>
-        <h1 className="title" >Pokedex</h1>
+        <h1 className="title">Pokedex</h1>
       </div>
       {!isInPokedex ? (
         <Link to="/pokedex">
           <div className="pokedex" style={{ marginTop: 50 }}>
             <button
               style={{ background: "none", color: "inherit", border: "none" }}
-              onClick={goAndRetunrn}
+              onClick={handleClickReturn}
             >
               <img src={pokedexImage} alt="pokedex" style={{ width: 70 }} />
             </button>
@@ -47,7 +46,7 @@ const Header = (props) => {
   );
 };
 Header.propTypes = {
-  setIsInPokedex: PropTypes.func,
+  dispatch: PropTypes.func,
   isInPokedex: PropTypes.bool,
 };
 

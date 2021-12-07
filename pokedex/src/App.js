@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import api from "./api/apiPokemon";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
@@ -9,7 +9,6 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import Counter from "./components/Counter";
-import PokedexIcon from "./components/Pokedex/PokedexIcon";
 
 import reducer, { INITIAL_STATE } from "./store/dashboard/reducer";
 import {
@@ -18,21 +17,22 @@ import {
   errorGetPokemons,
   setOpenModal,
   addPokemon,
+  setCleanCart,
+  setRemovePokemon,
 } from "./store/dashboard/actions";
 
 function App() {
-  // const [allPokemons, setAllPokemons] = useState([]);
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  console.log("STATE ==>", state);
-  const { loading, allPokemons, error, isInPokedex, cartPokemon, open } = state;
-  // const {allPokemons, cartPokemon} = state;
-
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-  //const [cartPokemon, setCartPokemon] = useState([]);
-  // const [open, setOpen] = useState(false);
-  // const [pokedex, setPokedex] = useState([]);
-  // const [isInPokedex, setIsInPokedex] = useState(false);
+  const {
+    loading,
+    allPokemons,
+    error,
+    isInPokedex,
+    cartPokemon,
+    isOpen,
+    pokedex,
+    pokemon,
+  } = state;
 
   const getPokemon = async (path) => {
     dispatch(setGetPokemons());
@@ -51,45 +51,28 @@ function App() {
   const openModal = () => dispatch(setOpenModal());
 
   const addPokemonHandler = (id, name, image) => {
-    console.log(id, name, image);
-
     dispatch(addPokemon({ id, name, image }));
   };
 
-  // const removePokemon = (id) => {
-  // //  setCartPokemon(cartPokemon.filter((element) => element.id !== id));
-  // };
+  const removePokemon = (id) => dispatch(setRemovePokemon(id));
 
-  // const cancelPokemons = () => {
-  //  // setCartPokemon([]);
-  // };
+  const cancelPokemons = () => dispatch(setCleanCart());
+
 
   return (
     <div className="App">
       <Router>
-        {/* <Header
-          isInPokedex={isInPokedex}
-          setIsInPokedex={setIsInPokedex}
-        /> */}
-        {/* <Counter
-          open={open}
-          setOpen={setOpen}
-          cartPokemon={state.cartPokemon}
-          cancelPokemons={cancelPokemons}
-          pokedex={pokedex}
-          setPokedex={setPokedex}
-          error={error}
-          setError={setError}
-          loading={loading}
-          setLoading={setLoading}
-       /> */}
+        <Header isInPokedex={isInPokedex} dispatch={dispatch} />
         <Switch>
           <Route exact path="/"></Route>
           <Route exact path="/dashboard">
-            <PokedexIcon
+            <Counter
+              isOpen={isOpen}
+              openModal={openModal}
               cartPokemon={cartPokemon}
-              open={open}
-              setOpen={openModal}
+              cancelPokemons={cancelPokemons}
+              pokedex={pokedex}
+              dispatch={dispatch}
             />
             {loading && <Loading />}
             {allPokemons?.length === 0 && !error && !loading && <NotFound />}
@@ -98,30 +81,24 @@ function App() {
               <Board
                 allPokemons={allPokemons}
                 addPokemon={addPokemonHandler}
-                // cartPokemon={state.cartPokemon}
-                /* setCartPokemon={setCartPokemon}*/
-                // removePokemon={removePokemon}
-                // pokedex={pokedex}
+                cartPokemon={cartPokemon}
+                removePokemon={removePokemon}
+                pokedex={pokedex}
+                dispatch={dispatch}
               />
             )}
           </Route>
-          {/* <Route path="/detail/:id">
+          <Route path="/detail/:id">
             <Detail
+              dispatch={dispatch}
               error={error}
-              setError={setError}
+              pokemon={pokemon}
               loading={loading}
-              setLoading={setLoading}
             />
-          </Route> */}
-          {/* <Route path="/pokedex/">
-            <Board
-              pokedex={pokedex}
-              setPokedex={setPokedex}
-              setError={setError}
-              setLoading={setLoading}
-              modeMockApi
-            />
-          </Route> */}
+          </Route>
+          <Route path="/pokedex/">
+            <Board pokedex={pokedex} dispatch={dispatch} modeMockApi />
+          </Route>
         </Switch>
       </Router>
     </div>

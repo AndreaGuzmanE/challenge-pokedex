@@ -3,16 +3,17 @@ import PropTypes from "prop-types";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Typography, Box } from "@mui/material";
 
-const PokedexIcon = (props) => {
-  const { cartPokemon, open, setOpen } = props;
+const BagIcon = (props) => {
+  const { cartPokemon, openModal } = props;
 
-  const openModal = () => {
-    setOpen(!open);
+  const handleOpenModal = () => {
+    openModal();
   };
+
   return (
     <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
       <ShoppingBagIcon
-        onClick={openModal}
+        onClick={handleOpenModal}
         sx={{
           fontSize: 30,
           color: "blue",
@@ -42,10 +43,9 @@ const PokedexIcon = (props) => {
   );
 };
 
-PokedexIcon.propTypes = {
+BagIcon.propTypes = {
   cartPokemon: PropTypes.array,
-  open: PropTypes.bool,
-  setOpen: PropTypes.func,
+  openModal: PropTypes.func,
 };
 
-export default PokedexIcon;
+export default BagIcon;

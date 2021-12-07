@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -18,18 +18,13 @@ const PokemonCard = (props) => {
     removePokemon,
     pokedex,
     cartPokemon,
-    setPokedex,
-    setError,
-    setLoading,
+    dispatch,
     modeMockApi = false,
   } = props;
-  const [toggle, setToggle] = useState(
-    () => cartPokemon?.find((pokemon) => pokemon.id === id) === undefined
-  );
 
-  useEffect(() => {
-    setToggle(cartPokemon?.find((pokemon) => pokemon.id === id) === undefined);
-  }, [cartPokemon, id]);
+  // useEffect(() => {
+  //   setToogle({id});
+  // }, [cartPokemon, id]);
 
   let history = useHistory();
 
@@ -38,18 +33,21 @@ const PokemonCard = (props) => {
   };
 
   const handleClickAdd = () => {
-    addPokemon(id, name, image);
+    addPokemon(id, name, image, cartPokemon);
   };
 
   const inPokedex = pokedex?.find((element) => element.id === id);
 
   const handleDelete = () => {
     if (modeMockApi) {
-      return deletePokemon(objectId, setPokedex, setLoading, setError);
+      return deletePokemon(objectId, dispatch);
     } else {
       return removePokemon(id);
     }
   };
+
+  const pokemonInCart =
+    cartPokemon?.find((pokemon) => pokemon.id === id) === undefined;
 
   return (
     <Card sx={{ Width: 345 }}>
@@ -75,7 +73,7 @@ const PokemonCard = (props) => {
         <Button onClick={handleClick} size="small">
           Detalle
         </Button>
-        {toggle && !modeMockApi ? (
+        {pokemonInCart && !modeMockApi ? (
           <Button
             onClick={handleClickAdd}
             disabled={!!inPokedex}
@@ -109,9 +107,7 @@ Card.propTypes = {
   removePokemon: PropTypes.func,
   pokedex: PropTypes.array,
   cartPokemon: PropTypes.array,
-  setPokedex: PropTypes.func,
-  setError: PropTypes.func,
-  setLoading: PropTypes.func,
+  dispatch: PropTypes.func,
   modeMockApi: PropTypes.bool,
 };
 

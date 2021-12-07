@@ -1,6 +1,11 @@
 import axios from "axios";
+import {
+  setGetPokedex,
+  errorGetPokemons,
+  setGetPokemons,
+} from "../store/dashboard/actions";
 
-const savePokemon = async (cartPokemon, setPokedex, setLoading, setError) => {
+const savePokemon = async (cartPokemon, dispatch) => {
   try {
     for await (const response of cartPokemon.map((element) => element)) {
       await axios.post(
@@ -8,32 +13,26 @@ const savePokemon = async (cartPokemon, setPokedex, setLoading, setError) => {
         response
       );
     }
-    getPokedex(setPokedex, setLoading, setError);
+    getPokedex(dispatch);
   } catch (error) {
-    setError(error);
+    dispatch(errorGetPokemons(error));
   }
 };
 
-export const getPokedex = async (setPokedex, setLoading, setError) => {
+export const getPokedex = async (dispatch) => {
   const mockApi =
     "https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/";
-  setLoading(true);
+  dispatch(setGetPokemons());
   try {
     const data = await axios.get(mockApi).then((response) => response.data);
-    setPokedex(data);
-    setLoading(false);
+    dispatch(setGetPokedex(data));
   } catch (error) {
-    setError(error);
-    setLoading(false);
+    dispatch(errorGetPokemons(error));
   }
 };
 
-export const deletePokemon = async (
-  objectId,
-  setPokedex,
-  setLoading,
-  setError
-) => {
+export const deletePokemon = async (objectId, dispatch) => {
+  dispatch(setGetPokemons());
   try {
     await axios
       .delete(
@@ -42,9 +41,9 @@ export const deletePokemon = async (
       .then((response) => {
         return response;
       });
-    getPokedex(setPokedex, setLoading, setError);
+    getPokedex(dispatch);
   } catch (error) {
-    setError(error);
+    dispatch(errorGetPokemons(error));
   }
 };
 
