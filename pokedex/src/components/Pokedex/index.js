@@ -1,13 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Typography, Box } from "@mui/material";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
-const BagIcon = (props) => {
-  const { cartPokemon, openModal } = props;
+const BagIcon = () => {
+  const { cartPokemon, setOpenModal } = useOwnContext();
 
   const handleOpenModal = () => {
-    openModal();
+    setOpenModal();
   };
 
   return (
@@ -41,11 +41,6 @@ const BagIcon = (props) => {
       </Typography>
     </Box>
   );
-};
-
-BagIcon.propTypes = {
-  cartPokemon: PropTypes.array,
-  openModal: PropTypes.func,
 };
 
 export default BagIcon;

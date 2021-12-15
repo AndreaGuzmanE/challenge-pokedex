@@ -3,18 +3,11 @@ import PropTypes from "prop-types";
 import PokemonCard from "../Card/index";
 import SaveInPokedex from "../SaveInPokedex";
 import "./Board.css";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
 const Board = (props) => {
-  const {
-    allPokemons,
-    cartPokemon,
-    addPokemon,
-    removePokemon,
-    pokedex,
-    dispatch,
-    setToogle,
-    modeMockApi = false,
-  } = props;
+  const { modeMockApi, deletePokemon } = props;
+  const { allPokemons, pokedex } = useOwnContext();
 
   return (
     <>
@@ -28,10 +21,8 @@ const Board = (props) => {
                 name={pokemon.name}
                 id={pokemon.id}
                 objectId={pokemon.objectId}
+                deletePokemon={deletePokemon}
                 modeMockApi
-                dispatch={dispatch}
-                toggle={pokemon.toggle}
-                setToogle={setToogle}
               />
             ))
           : allPokemons?.map((pokemon) => (
@@ -40,13 +31,6 @@ const Board = (props) => {
                 image={pokemon.image}
                 name={pokemon.name}
                 id={pokemon.id}
-                cartPokemon={cartPokemon}
-                addPokemon={addPokemon}
-                removePokemon={removePokemon}
-                pokedex={pokedex}
-                dispatch={dispatch}
-                setToogle={setToogle}
-                toggle={pokemon.toggle}
               />
             ))}
       </div>
@@ -54,12 +38,7 @@ const Board = (props) => {
   );
 };
 Board.propTypes = {
-  allPokemons: PropTypes.array,
-  cartPokemon: PropTypes.array,
-  addPokemon: PropTypes.func,
-  removePokemon: PropTypes.func,
-  pokedex: PropTypes.array,
-  dispatch: PropTypes.func,
+  deletePokemon: PropTypes.func,
   modeMockApi: PropTypes.bool,
 };
 

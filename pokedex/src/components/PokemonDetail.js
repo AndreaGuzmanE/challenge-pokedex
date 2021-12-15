@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Box,
   Card,
@@ -11,6 +10,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import "./Detail/Detail.css";
+import { useOwnContext } from "../store/dashboard/storeApi";
 
 const useStyles = makeStyles(() => ({
   box: {
@@ -25,8 +25,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const PokemonDetail = (props) => {
-  const { pokemon } = props;
+const PokemonDetail = () => {
+  const { pokemon } = useOwnContext();
 
   const styles = useStyles();
 
@@ -119,10 +119,6 @@ const PokemonDetail = (props) => {
       )}
     </>
   );
-};
-
-PokemonDetail.propTypes = {
-  pokemon: PropTypes.object,
 };
 
 export default PokemonDetail;
