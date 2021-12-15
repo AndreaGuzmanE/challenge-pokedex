@@ -1,3 +1,4 @@
+import { useReducer, useContext } from "react";
 import {
   SET_GET_POKEMONS,
   SUCCESS_GET_POKEMON,
@@ -9,8 +10,8 @@ import {
   SET_REMOVE_POKEMON,
   SET_GET_POKEDEX,
   POKEMON_DETAIL,
-  SET_DELETE_POKEMON,
 } from "./actionTypes";
+import Context from "./context";
 
 export const INITIAL_STATE = {
   loading: false,
@@ -62,13 +63,11 @@ const reducer = (state, action) => {
         error: action.payload,
       };
     case ADD_POKEMON:
-      const newPokemon = state.allPokemons.find(
-        (pokemon) => pokemon.id === action.payload.id
-      );
       return {
         ...state,
-        cartPokemon: [...state.cartPokemon, newPokemon],
+        cartPokemon: [...state.cartPokemon, action.payload],
       };
+
     case SET_OPEN_MODAL:
       return {
         ...state,
@@ -100,15 +99,15 @@ const reducer = (state, action) => {
         loading: false,
         error: null,
       };
-    case SET_DELETE_POKEMON:
-      return {
-        ...state,
-        pokedex: action.payload,
-        loading: false,
-      };
     default:
       return state;
   }
 };
 
-export default reducer;
+export const StoreProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  return (
+    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+  );
+};
+export const useStore = () => useContext(Context);

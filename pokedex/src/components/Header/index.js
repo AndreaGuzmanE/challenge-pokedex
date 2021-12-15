@@ -1,15 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import pokedexImage from "../../assets/pokedex.png";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { backDashboard } from "../../store/dashboard/actions";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
-const Header = (props) => {
-  const { isInPokedex, dispatch } = props;
+const Header = () => {
+  const { isInPokedex, backDashboard } = useOwnContext();
 
-  const handleClickReturn = () => dispatch(backDashboard());
+  const handleClickReturn = () => backDashboard();
 
   return (
     <div className="header">
@@ -44,10 +43,6 @@ const Header = (props) => {
       ) : null}
     </div>
   );
-};
-Header.propTypes = {
-  dispatch: PropTypes.func,
-  isInPokedex: PropTypes.bool,
 };
 
 export default Header;

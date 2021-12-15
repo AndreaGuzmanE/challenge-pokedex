@@ -1,6 +1,11 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect } from "react";
 import api from "./api/apiPokemon";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "./App.css";
 import Board from "./components/Board";
 import Loading from "./components/Loading";
@@ -9,38 +14,29 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import Detail from "./components/Detail";
 import Counter from "./components/Counter";
-
-import reducer, { INITIAL_STATE } from "./store/dashboard/reducer";
-import {
-  setGetPokemons,
-  successGetPokemons,
-  errorGetPokemons,
-  setOpenModal,
-  addPokemon,
-  setCleanCart,
-  setRemovePokemon,
-} from "./store/dashboard/actions";
+import axios from "axios";
+import { useOwnContext } from "./store/dashboard/storeApi";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const {
     loading,
     allPokemons,
-    error,
-    isInPokedex,
     cartPokemon,
-    isOpen,
-    pokedex,
-    pokemon,
-  } = state;
+    error,
+    setGetPokemons,
+    successGetPokemons,
+    errorGetPokemons,
+    setGetPokedex,
+    setCleanCart,
+  } = useOwnContext();
 
   const getPokemon = async (path) => {
-    dispatch(setGetPokemons());
+    setGetPokemons();
     try {
       const response = await api.get(path);
-      dispatch(successGetPokemons(response.data.results));
+      successGetPokemons(response.data.results);
     } catch (error) {
-      dispatch(errorGetPokemons(error));
+      errorGetPokemons(error);
     }
   };
 
@@ -48,56 +44,77 @@ function App() {
     getPokemon();
   }, []);
 
-  const openModal = () => dispatch(setOpenModal());
-
-  const addPokemonHandler = (id, name, image) => {
-    dispatch(addPokemon({ id, name, image }));
+  const handleSavePokemon = async () => {
+    try {
+      for await (const response of cartPokemon.map((element) => element)) {
+        await axios.post(
+          "https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/",
+          response
+        );
+      }
+      setCleanCart();
+      getPokedex();
+    } catch (error) {
+      errorGetPokemons(error);
+    }
   };
 
-  const removePokemon = (id) => dispatch(setRemovePokemon(id));
+  const getPokedex = async () => {
+    const mockApi =
+      "https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/";
+    setGetPokemons();
+    try {
+      const data = await axios.get(mockApi).then((response) => response.data);
+      setGetPokedex(data);
+    } catch (error) {
+      errorGetPokemons(error);
+    }
+  };
 
-  const cancelPokemons = () => dispatch(setCleanCart());
+  useEffect(() => {
+    getPokedex();
+  }, []);
 
+  const deletePokemon = async (objectId) => {
+    setGetPokemons();
+    try {
+      await axios
+        .delete(
+          `https://6164b44709a29d0017c88e55.mockapi.io/api/v1/pokemons/${objectId}`
+        )
+        .then((response) => {
+          return response;
+        });
+      getPokedex();
+    } catch (error) {
+      errorGetPokemons(error);
+    }
+  };
 
   return (
     <div className="App">
       <Router>
-        <Header isInPokedex={isInPokedex} dispatch={dispatch} />
+        <Header />
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/">
+            <Redirect to="/dashboard" />
+          </Route>
           <Route exact path="/dashboard">
-            <Counter
-              isOpen={isOpen}
-              openModal={openModal}
-              cartPokemon={cartPokemon}
-              cancelPokemons={cancelPokemons}
-              pokedex={pokedex}
-              dispatch={dispatch}
-            />
+            <Counter handleSavePokemon={handleSavePokemon} />
             {loading && <Loading />}
             {allPokemons?.length === 0 && !error && !loading && <NotFound />}
             {error && <Message />}
-            {!error && (
-              <Board
-                allPokemons={allPokemons}
-                addPokemon={addPokemonHandler}
-                cartPokemon={cartPokemon}
-                removePokemon={removePokemon}
-                pokedex={pokedex}
-                dispatch={dispatch}
-              />
-            )}
+            {!error && <Board />}
           </Route>
           <Route path="/detail/:id">
-            <Detail
-              dispatch={dispatch}
-              error={error}
-              pokemon={pokemon}
-              loading={loading}
-            />
+            <Detail />
           </Route>
           <Route path="/pokedex/">
-            <Board pokedex={pokedex} dispatch={dispatch} modeMockApi />
+            <Board
+              handleSavePokemon={handleSavePokemon}
+              deletePokemon={deletePokemon}
+              modeMockApi
+            />
           </Route>
         </Switch>
       </Router>

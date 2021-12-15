@@ -6,25 +6,13 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
-import { deletePokemon } from "../../helpers/savePokemon";
+import { useOwnContext } from "../../store/dashboard/storeApi";
 
 const PokemonCard = (props) => {
-  const {
-    name,
-    image,
-    id,
-    objectId,
-    addPokemon,
-    removePokemon,
-    pokedex,
-    cartPokemon,
-    dispatch,
-    modeMockApi = false,
-  } = props;
+  const { name, image, id, objectId, modeMockApi, deletePokemon } = props;
 
-  // useEffect(() => {
-  //   setToogle({id});
-  // }, [cartPokemon, id]);
+  const { pokedex, cartPokemon, addPokemon, setRemovePokemon } =
+    useOwnContext();
 
   let history = useHistory();
 
@@ -33,21 +21,21 @@ const PokemonCard = (props) => {
   };
 
   const handleClickAdd = () => {
-    addPokemon(id, name, image, cartPokemon);
+    addPokemon({ id, name, image });
   };
 
   const inPokedex = pokedex?.find((element) => element.id === id);
 
   const handleDelete = () => {
     if (modeMockApi) {
-      return deletePokemon(objectId, dispatch);
+      return deletePokemon(objectId);
     } else {
-      return removePokemon(id);
+      return setRemovePokemon(id);
     }
   };
 
   const pokemonInCart =
-    cartPokemon?.find((pokemon) => pokemon.id === id) === undefined;
+    cartPokemon?.find((pokemon) => pokemon?.id === id) === undefined;
 
   return (
     <Card sx={{ Width: 345 }}>
@@ -56,11 +44,11 @@ const PokemonCard = (props) => {
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
-        {inPokedex && (
+        {!modeMockApi && inPokedex ? (
           <Typography sx={{ color: "#92D1B3" }} variant="h6" component="div">
             Guardado
           </Typography>
-        )}
+        ) : null}
       </CardContent>
 
       <CardActions
@@ -86,7 +74,6 @@ const PokemonCard = (props) => {
         ) : (
           <Button
             onClick={handleDelete}
-            disabled={!!inPokedex}
             variant="contained"
             color="error"
             size="small"
@@ -103,12 +90,8 @@ Card.propTypes = {
   image: PropTypes.string,
   id: PropTypes.number,
   objectId: PropTypes.number,
-  addPokemon: PropTypes.func,
-  removePokemon: PropTypes.func,
-  pokedex: PropTypes.array,
-  cartPokemon: PropTypes.array,
-  dispatch: PropTypes.func,
   modeMockApi: PropTypes.bool,
+  deletePokemon: PropTypes.func,
 };
 
 export default PokemonCard;

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import savePokemon, { getPokedex } from "../helpers/savePokemon";
+import { useOwnContext } from "../store/dashboard/storeApi";
 import { makeStyles } from "@mui/styles";
-
 import BagIcon from "../components/Pokedex";
 
 const useStyles = makeStyles(() => ({
@@ -23,21 +22,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Counter = (props) => {
+const Counter = ({ handleSavePokemon }) => {
   const styles = useStyles();
-  const { isOpen, openModal, cartPokemon, cancelPokemons, pokedex, dispatch } =
-    props;
 
-  const handleCancelPokemons = () => cancelPokemons();
+  const { isOpen, openModal, cartPokemon, setCleanCart, pokedex } =
+    useOwnContext();
 
-  const handleSavePokemon = () => {
-    savePokemon(cartPokemon, dispatch);
-    cancelPokemons();
-  };
-
-  useEffect(() => {
-    getPokedex(dispatch);
-  }, [dispatch]);
+  const handleCancelPokemons = () => setCleanCart();
 
   const body = (
     <div className={styles.modal}>
@@ -64,12 +55,7 @@ const Counter = (props) => {
 };
 
 Counter.propTypes = {
-  isOpen: PropTypes.bool,
-  openModal: PropTypes.func,
-  cartPokemon: PropTypes.array,
-  cancelPokemons: PropTypes.func,
-  pokedex: PropTypes.array,
-  dispatch: PropTypes.func,
+  handleSavePokemon: PropTypes.func,
 };
 
 export default Counter;

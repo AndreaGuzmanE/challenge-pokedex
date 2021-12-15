@@ -9,7 +9,6 @@ import {
   SET_REMOVE_POKEMON,
   SET_GET_POKEDEX,
   POKEMON_DETAIL,
-  SET_DELETE_POKEMON,
 } from "./actionTypes";
 
 export const setGetPokemons = () => {
@@ -76,11 +75,3 @@ export const setPokemonDetail = (payload) => {
     payload,
   };
 };
-
-export const setDeletePokemon = (payload) => {
-  return {
-    type: SET_DELETE_POKEMON,
-    payload,
-  };
-};
-
